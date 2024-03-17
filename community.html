@@ -1,0 +1,3827 @@
+<!----
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Section</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            background-color: #f0f2f5;
+        }
+
+        .post-container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .post:last-child {
+            border-bottom: none;
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+        }
+
+        .post-content p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .post-content img {
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        .post-content audio,
+        .post-content video {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #message-input,
+        #file-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #post-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #post-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the Community Section</h1>
+       
+        <div id="chat-container" class="post-container">
+            <textarea id="message-input" placeholder="Type your message..."></textarea>
+            <input type="file" id="file-input" accept="image/*, audio/*, video/*">
+            <button id="post-button" onclick="sendMessage()">Post</button>
+        </div>
+       
+        <div id="posts-container" class="post-container"></div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var messageInput = document.getElementById("message-input");
+            var fileInput = document.getElementById("file-input");
+            var message = messageInput.value;
+            var files = fileInput.files;
+
+            if (message.trim() !== "" || files.length > 0) {
+                displayPost(message, files);
+                messageInput.value = "";
+                fileInput.value = "";
+            }
+        }
+
+        function displayPost(message, files) {
+            var postsContainer = document.getElementById("posts-container");
+
+            var postDiv = document.createElement("div");
+            postDiv.classList.add("post");
+
+            var postContent = document.createElement("div");
+            postContent.classList.add("post-content");
+
+            var messageParagraph = document.createElement("p");
+            messageParagraph.textContent = message;
+            postContent.appendChild(messageParagraph);
+
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (file.type.startsWith("image/")) {
+                    var img = document.createElement("img");
+                    img.src = URL.createObjectURL(file);
+                    postContent.appendChild(img);
+                } else if (file.type.startsWith("audio/")) {
+                    var audio = document.createElement("audio");
+                    audio.controls = true;
+                    audio.src = URL.createObjectURL(file);
+                    postContent.appendChild(audio);
+                } else if (file.type.startsWith("video/")) {
+                    var video = document.createElement("video");
+                    video.controls = true;
+                    video.src = URL.createObjectURL(file);
+                    postContent.appendChild(video);
+                }
+            }
+
+            postDiv.appendChild(postContent);
+            postsContainer.prepend(postDiv);
+        }
+    </script>
+</body>
+
+</html>
+-->
+<!----commmunity 
+  <!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Section</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        #background-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensure the image covers the entire container */
+            opacity: 0.5;
+            /* Adjust the opacity to decrease transparency */
+        }
+
+        #chat-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Semi-transparent background */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #message-container {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        #message-container p {
+            margin: 5px 0;
+        }
+
+        #message-input {
+            width: calc(100% - 100px);
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /*Media Queries for Mobile Phones*/
+        @media only screen and (max-width: 600px) {
+            #chat-container {
+                width: 90%;
+                padding: 10px;
+            }
+
+            #message-input {
+                width: calc(100% - 80px);
+            }
+
+            #file-input {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
+</head>
+
+<body style="height: 100%; margin: 0;">
+    <div id="background-container">
+       
+        <img src="images/Anganwadi community.jpg" id="background-image">
+
+    
+        <div id="chat-container">
+            <div id="message-container"></div>
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <input type="file" id="file-input" accept="image/*, audio/*, video/*">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        // Retrieve posts from localStorage when the page loads
+        window.onload = function () {
+            var storedPosts = JSON.parse(localStorage.getItem('community_posts'));
+            if (storedPosts) {
+                var messageContainer = document.getElementById("message-container");
+                messageContainer.innerHTML = storedPosts;
+            }
+        };
+
+        function sendMessage() {
+            var messageInput = document.getElementById("message-input");
+            var fileInput = document.getElementById("file-input");
+            var message = messageInput.value;
+            var files = fileInput.files;
+
+            if (message.trim() !== "" || files.length > 0) {
+                displayMessage(message, files);
+                messageInput.value = "";
+                fileInput.value = "";
+            }
+        }
+
+        function displayMessage(message, files) {
+            var messageContainer = document.getElementById("message-container");
+            var messageElement = document.createElement("div");
+            messageElement.classList.add("message");
+
+            // Display text message
+            var textElement = document.createElement("p");
+            textElement.textContent = message;
+            messageElement.appendChild(textElement);
+
+            // Display files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var fileElement = document.createElement("div");
+                fileElement.classList.add("file");
+
+                if (file.type.startsWith("image/")) {
+                    var img = document.createElement("img");
+                    img.src = URL.createObjectURL(file);
+                    img.width = 150;
+                    fileElement.appendChild(img);
+                } else if (file.type.startsWith("audio/")) {
+                    var audio = document.createElement("audio");
+                    audio.controls = true;
+                    audio.src = URL.createObjectURL(file);
+                    fileElement.appendChild(audio);
+                } else if (file.type.startsWith("video/")) {
+                    var video = document.createElement("video");
+                    video.controls = true;
+                    video.src = URL.createObjectURL(file);
+                    video.width = 300;
+                    fileElement.appendChild(video);
+                }
+
+                messageElement.appendChild(fileElement);
+            }
+
+            messageContainer.appendChild(messageElement);
+
+            // Store posts in localStorage
+            localStorage.setItem('community_posts', JSON.stringify(messageContainer.innerHTML));
+        }
+    </script>
+</body>
+
+</html>
+ 
+--->
+
+ <!----
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .connected-users {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .user {
+            width: 45%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .user-name {
+            font-weight: bold;
+        }
+        .posts {
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+        }
+        .post:last-child {
+            border-bottom: none;
+        }
+        .post-content {
+            display: flex;
+            align-items: center;
+        }
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .post-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .post-image {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+        .post-link {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .post-link img {
+            width: 100px;
+            margin-right: 10px;
+        }
+        .post-actions {
+            display: flex;
+            align-items: center;
+            color: #606770;
+            font-size: 14px;
+        }
+        .post-action {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .post-action:hover {
+            color: #1877f2;
+        }
+        .post-action i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       
+        <div class="section">
+            <div class="section-title">Connected Users</div>
+            <div class="connected-users">
+              
+                <div class="user">
+                    <div class="user-avatar">
+                        <img src="https://media.istockphoto.com/id/1310209956/photo/shot-of-a-mid-adult-woman-standing-near-window-balcony-stock-photo.jpg?s=612x612&w=0&k=20&c=XYfe8AHKwNNjZiFZF5eo5isqctqnOlX8h5ZsRIC1FP0=" alt="User Avatar">
+                    </div>
+                    <div class="user-name">User 1</div>
+                </div>
+               
+                <div class="user">
+                    <div class="user-avatar">
+                        <img src="https://media.istockphoto.com/id/1205299877/photo/portrait-of-confident-woman-in-sari.jpg?s=612x612&w=0&k=20&c=JkYeRIOYybTIsSw8QLZklJvSKjPFLuhZSgaYSIbAhDI=" alt="User Avatar">
+                    </div>
+                    <div class="user-name">User 2</div>
+                </div>
+               
+            </div>
+        </div>
+
+       
+        <div class="section">
+            <div class="section-title">Existing Posts</div>
+            <div class="posts">
+             
+                <div class="post">
+                    <div class="post-content">
+                        <div class="post-avatar">
+                            <img src="https://media.istockphoto.com/id/1310209956/photo/shot-of-a-mid-adult-woman-standing-near-window-balcony-stock-photo.jpg?s=612x612&w=0&k=20&c=XYfe8AHKwNNjZiFZF5eo5isqctqnOlX8h5ZsRIC1FP0=" alt="User Avatar">
+                        </div>
+                        <div class="post-details">
+                            <p class="post-text">This is an existing post.</p>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="post">
+                    <div class="post-content">
+                        <div class="post-avatar">
+                            <img src="https://media.istockphoto.com/id/1205299877/photo/portrait-of-confident-woman-in-sari.jpg?s=612x612&w=0&k=20&c=JkYeRIOYybTIsSw8QLZklJvSKjPFLuhZSgaYSIbAhDI=" alt="User Avatar">
+                        </div>
+                        <div class="post-details">
+                            <p class="post-text">Another existing post.</p>
+                        </div>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+
+      
+        <div class="section">
+            <div class="section-title">Add Content</div>
+            <form id="postForm">
+                <textarea id="postText" placeholder="Write something..."></textarea><br>
+                <input type="file" id="postImage" accept="image/*"><br>
+                <input type="file" id="postVideo" accept="video/*"><br>
+                <input type="file" id="postAudio" accept="audio/*"><br>
+                <input type="url" id="postLink" placeholder="Enter a link..."><br>
+                <button type="submit">Post</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        const postForm = document.getElementById('postForm');
+        const postsContainer = document.querySelector('.posts');
+
+        postForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form data
+            const text = document.getElementById('postText').value;
+            const image = document.getElementById('postImage').files[0];
+            const video = document.getElementById('postVideo').files[0];
+            const audio = document.getElementById('postAudio').files[0];
+            const link = document.getElementById('postLink').value;
+
+            // Create post element
+            const post = document.createElement('div');
+            post.classList.add('post');
+
+            // Add text content
+            const textNode = document.createElement('p');
+            textNode.textContent = text;
+            post.appendChild(textNode);
+
+            // Add image if provided
+            if (image) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(image);
+                img.classList.add('post-image');
+                post.appendChild(img);
+            }
+
+            // Add video if provided
+            if (video) {
+                const videoNode = document.createElement('video');
+                videoNode.src = URL.createObjectURL(video);
+                videoNode.controls = true;
+                post.appendChild(videoNode);
+            }
+
+            // Add audio if provided
+            if (audio) {
+                const audioNode = document.createElement('audio');
+                audioNode.src = URL.createObjectURL(audio);
+                audioNode.controls = true;
+                post.appendChild(audioNode);
+            }
+
+            // Add link if provided
+            if (link) {
+                const linkNode = document.createElement('a');
+                linkNode.href = link;
+                linkNode.textContent = link;
+                post.appendChild(linkNode);
+            }
+
+            // Add post to container
+            postsContainer.insertBefore(post, postsContainer.firstChild);
+
+            // Clear form
+            postForm.reset();
+        });
+    </script>
+</body>
+</html>
+ 
+-->
+
+<!----
+
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="posts-container">
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_1</div>
+            </div>
+            <p class="post-content">This is a dummy post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_2</div>
+            </div>
+            <p class="post-content">Another dummy post. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+    </div>
+    
+    <div id="post-form">
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">You</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+-->
+
+ <!----
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-left">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user1</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user2</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user3</div>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_1</div>
+            </div>
+            <p class="post-content">This is a dummy post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_2</div>
+            </div>
+            <p class="post-content">Another dummy post. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+    </div>
+
+    <div id="sidebar-right">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user4</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user5</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user6</div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">You</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+-->
+
+
+ <!----
+ 
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #navbar {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        #content {
+            display: flex;
+            flex-grow: 1;
+        }
+
+        #sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header id="navbar">
+        <h1>Instagram Clone</h1>
+    </header>
+
+    <div id="content">
+        <div id="sidebar">
+            <h2>Users</h2>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">John</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">Alice</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">Bob</div>
+            </div>
+        </div>
+
+        <div id="posts-container">
+            <div class="post">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <div class="username">John</div>
+                </div>
+                <p class="post-content">Hello, Instagram Clone!</p>
+            </div>
+
+            <div class="post">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <div class="username">Alice</div>
+                </div>
+                <p class="post-content">This is a test post.</p>
+                <img src="https://via.placeholder.com/600x400" alt="Post Image">
+            </div>
+
+            <div class="post">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <div class="username">Bob</div>
+                </div>
+                <p class="post-content">Testing, testing!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*, audio/*, video/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info (for demonstration purposes, let's assume the first user in the sidebar is the current user)
+            var firstSidebarUser = document.querySelector("#sidebar .sidebar-user");
+            var username = firstSidebarUser.querySelector(".username").textContent;
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">${username}</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                } else if (file.type.startsWith("audio/")) {
+                    mediaElement = document.createElement("audio");
+                    mediaElement.controls = true;
+                    mediaElement.src = URL.createObjectURL(file);
+                } else if (file.type.startsWith("video/")) {
+                    mediaElement = document.createElement("video");
+                    mediaElement.controls = true;
+                    mediaElement.src = URL.createObjectURL(file);
+                } else {
+                    // If it's not an image, audio, or video, let's display a link
+                    mediaElement = document.createElement("a");
+                    mediaElement.href = URL.createObjectURL(file);
+                    mediaElement.textContent = "Attachment";
+                }
+
+                mediaElement.classList.add("post-media");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+ 
+
+-->
+<!----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-profile-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-left">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user1</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user2</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user3</div>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_1</div>
+            </div>
+            <p class="post-content">This is a dummy post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_2</div>
+            </div>
+            <p class="post-content">Another dummy post. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+    </div>
+
+    <div id="sidebar-right">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user4</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user5</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user6</div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <button id="create-profile-btn" onclick="createProfile()">Create Profile</button>
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        function createProfile() {
+            // Functionality to create a profile goes here
+            alert("Create Profile button clicked!");
+        }
+
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">You</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+-->
+
+<!----
+<!DOCTYPE html>
+<html-- lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-profile-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-left">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user1</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user2</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user3</div>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_1</div>
+            </div>
+            <p class="post-content">This is a dummy post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_2</div>
+            </div>
+            <p class="post-content">Another dummy post. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+    </div>
+
+    <div id="sidebar-right">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user4</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user5</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user6</div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <button id="create-profile-btn" onclick="showProfileForm()">Create Profile</button>
+        <div id="profile-form" style="display: none;">
+            <form id="profile-form">
+                <input type="text" id="name" placeholder="Enter your name" required><br><br>
+                <input type="text" id="contact" placeholder="Enter your contact number" required><br><br>
+                <input type="email" id="email" placeholder="Enter your email" required><br><br>
+                <button type="submit" onclick="submitProfile()">Submit</button>
+            </form>
+        </div>
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        function showProfileForm() {
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "block";
+        }
+
+        function submitProfile() {
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var email = document.getElementById("email").value;
+
+            // Display the name in the sidebar
+            var sidebarRight = document.getElementById("sidebar-right");
+            var userDiv = document.createElement("div");
+            userDiv.classList.add("sidebar-user");
+            userDiv.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">${name}</div>
+            `;
+            sidebarRight.appendChild(userDiv);
+
+            // Hide the profile form
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "none";
+
+            // Clear the input fields
+            document.getElementById("name").value = "";
+            document.getElementById("contact").value = "";
+            document.getElementById("email").value = "";
+
+            // Prevent form submission
+            return false;
+        }
+
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">You</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html-->
+<!----
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-profile-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-left">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user1</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user2</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user3</div>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_1</div>
+            </div>
+            <p class="post-content">This is a dummy post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+
+        <div class="post">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">username_2</div>
+            </div>
+            <p class="post-content">Another dummy post. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <img src="https://via.placeholder.com/600x400" alt="Post Image">
+        </div>
+    </div>
+
+    <div id="sidebar-right">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user4</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user5</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user6</div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <button id="create-profile-btn" onclick="showProfileForm()">Create Profile</button>
+        <div id="profile-form" style="display: none;">
+            <form id="profile-form">
+                <input type="text" id="name" placeholder="Enter your name" required><br><br>
+                <input type="text" id="contact" placeholder="Enter your contact number" required><br><br>
+                <input type="email" id="email" placeholder="Enter your email" required><br><br>
+                <button type="submit" onclick="submitProfile()">Submit</button>
+            </form>
+        </div>
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        var userProfile = null;
+
+        function showProfileForm() {
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "block";
+        }
+
+        function submitProfile() {
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var email = document.getElementById("email").value;
+
+            // Store user profile
+            userProfile = { name: name, contact: contact, email: email };
+
+            // Display the name in the sidebar
+            var sidebarRight = document.getElementById("sidebar-right");
+            var userDiv = document.createElement("div");
+            userDiv.classList.add("sidebar-user");
+            userDiv.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">${name}</div>
+            `;
+            sidebarRight.appendChild(userDiv);
+
+            // Hide the profile form
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "none";
+
+            // Clear the input fields
+            document.getElementById("name").value = "";
+            document.getElementById("contact").value = "";
+            document.getElementById("email").value = "";
+
+            // Prevent form submission
+            return false;
+        }
+
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">${userProfile ? userProfile.name : "You"}</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+-->
+
+<!----
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+        }
+
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-profile-btn {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-left">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user1</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user2</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user3</div>
+        </div>
+    </div>
+
+    <div id="posts-container">
+        
+    </div>
+
+    <div id="sidebar-right">
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user4</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user5</div>
+        </div>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                <img src="https://via.placeholder.com/30" alt="User Avatar">
+            </div>
+            <div class="username">user6</div>
+        </div>
+    </div>
+
+    <div id="post-form">
+        <button id="create-profile-btn" onclick="showProfileForm()">Create Profile</button>
+        <div id="profile-form" style="display: none;">
+            <form id="profile-form">
+                <input type="text" id="name" placeholder="Enter your name" required><br><br>
+                <input type="text" id="contact" placeholder="Enter your contact number" required><br><br>
+                <input type="email" id="email" placeholder="Enter your email" required><br><br>
+                <button type="submit" onclick="submitProfile()">Submit</button>
+            </form>
+        </div>
+        <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+        <input type="file" id="file-input" accept="image/*">
+        <button onclick="createPost()">Post</button>
+    </div>
+
+    <script>
+        var userProfile = null;
+
+        // Function to load posts from local storage
+        function loadPosts() {
+            var savedPosts = JSON.parse(localStorage.getItem('posts'));
+            if (savedPosts) {
+                var postsContainer = document.getElementById("posts-container");
+                postsContainer.innerHTML = savedPosts;
+            }
+        }
+
+        // Function to save posts to local storage
+        function savePosts() {
+            var postsContainer = document.getElementById("posts-container").innerHTML;
+            localStorage.setItem('posts', JSON.stringify(postsContainer));
+        }
+
+        // Load posts when the page is loaded
+        window.addEventListener('load', loadPosts);
+
+        function showProfileForm() {
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "block";
+        }
+
+        function submitProfile() {
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var email = document.getElementById("email").value;
+
+            // Store user profile
+            userProfile = { name: name, contact: contact, email: email };
+
+            // Display the name in the sidebar
+            var sidebarRight = document.getElementById("sidebar-right");
+            var userDiv = document.createElement("div");
+            userDiv.classList.add("sidebar-user");
+            userDiv.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/30" alt="User Avatar">
+                </div>
+                <div class="username">${name}</div>
+            `;
+            sidebarRight.appendChild(userDiv);
+
+            // Hide the profile form
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "none";
+
+            // Clear the input fields
+            document.getElementById("name").value = "";
+            document.getElementById("contact").value = "";
+            document.getElementById("email").value = "";
+
+            // Prevent form submission
+            return false;
+        }
+
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                </div>
+                <div class="username">${userProfile ? userProfile.name : "You"}</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Save posts to local storage
+            savePosts();
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+    </script>
+</body>
+</html>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Clone</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+     
+
+        /* Main content styling */
+        #content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        #main {
+            flex-grow: 1;
+            max-width: 600px;
+        }
+
+        /* Rest of your existing styles */
+        #posts-container {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .username {
+            font-weight: bold;
+        }
+
+        #sidebar-left,
+        #sidebar-right {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        #sidebar-left {
+            margin-right: 20px;
+        }
+
+        #sidebar-right {
+            margin-left: 20px;
+        }
+
+        .sidebar-user {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-user .user-avatar {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .sidebar-user .username {
+            font-size: 14px;
+        }
+        
+        #post-form {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-content {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border: none;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        #file-input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-profile-btn {
+            margin-bottom: 10px;
+        }
+
+        /*header and footer*/
+
+
+        :root {
+
+/**
+ * colors
+ */
+
+--selective-yellow: hsl(42, 94%, 55%);
+--eerie-black-1: hsl(0, 0%, 9%);
+--eerie-black-2: hsl(180, 3%, 7%);
+--quick-silver: hsl(0, 0%, 65%);
+--radical-red: hsl(351, 83%, 61%);
+--light-gray: hsl(0, 0%, 80%);
+--isabelline: hsl(36, 33%, 94%);
+--gray-x-11: hsl(0, 0%, 73%);
+--kappel_15: hsla(170, 75%, 41%, 0.15);
+--platinum: hsl(0, 0%, 90%);
+--gray-web: hsl(0, 0%, 50%);
+--black_80: hsla(0, 0%, 0%, 0.8);
+--white_50: hsla(0, 0%, 100%, 0.5);
+--black_50: hsla(0, 0%, 0%, 0.5);
+--black_30: hsla(0, 0%, 0%, 0.3);
+--kappel: hsl(170, 75%, 41%);
+--white: hsl(0, 0%, 100%);
+
+/**
+ * gradient color
+ */
+
+--gradient: linear-gradient(-90deg,hsl(151, 58%, 46%) 0%,hsl(170, 75%, 41%) 100%);
+
+/**
+ * typography
+ */
+
+--ff-league_spartan: 'League Spartan', sans-serif;
+--ff-poppins: 'Poppins', sans-serif; 
+
+--fs-1: 4.2rem;
+--fs-2: 3.2rem;
+--fs-3: 2.3rem;
+--fs-4: 1.8rem;
+--fs-5: 1.5rem;
+--fs-6: 1.4rem;
+--fs-7: 1.3rem;
+
+--fw-500: 500;
+--fw-600: 600;
+
+/**
+ * spacing
+ */
+
+--section-padding: 75px;
+
+/**
+ * shadow
+ */
+
+--shadow-1: 0 6px 15px 0 hsla(0, 0%, 0%, 0.05);
+--shadow-2: 0 10px 30px hsla(0, 0%, 0%, 0.06);
+--shadow-3: 0 10px 50px 0 hsla(220, 53%, 22%, 0.1);
+
+/**
+ * radius
+ */
+
+--radius-pill: 500px;
+--radius-circle: 50%;
+--radius-3: 3px;
+--radius-5: 5px;
+--radius-10: 10px;
+
+/**
+ * transition
+ */
+
+--transition-1: 0.25s ease;
+--transition-2: 0.5s ease;
+--cubic-in: cubic-bezier(0.51, 0.03, 0.64, 0.28);
+--cubic-out: cubic-bezier(0.33, 0.85, 0.4, 0.96);
+
+}
+
+
+
+
+
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            position: relative;
+        }
+
+        .navbar {
+            background-color: #fff; /* Set background color to white */
+            display: flex;
+            justify-content: space-between; /* Ensure items are evenly distributed */
+            align-items: center; /* Align items vertically */
+            padding: 5px 10px; /* Add padding to navbar */
+        }
+
+        .navbar-list {
+            list-style: none;
+            display: flex;
+            margin: auto; /* Remove default margin */
+        }
+
+        .navbar-item {
+            margin: 0 10px; /* Adjust margin between navbar items */
+        }
+
+        .navbar-link {
+            text-decoration: none;
+            color: #000; /* Set text color to black */
+            padding: 10px; /* Adjust padding for navbar items */
+        }
+
+        .navbar-link:hover {
+            color: #009688; /* Change text color on hover */
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+
+        .calculator-container {
+            margin-right: 20px;
+        }
+
+        .calculator {
+            width: 100%; /* Adjusted width for responsiveness */
+            max-width: 400px; /* Added max-width for better display on larger screens */
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .calculator label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .calculator input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .calculator button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #009688;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .calculator button:hover {
+            background-color: #00796b;
+        }
+
+        .result-container {
+            flex: 1;
+        }
+
+        #result {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #result h2 {
+            margin-bottom: 10px;
+        }
+
+        #result table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #result th,
+        #result td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #result th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        #age-specific-recommendations {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            width: 100%;
+        }
+
+        #age-specific-recommendations table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #age-specific-recommendations th,
+        #age-specific-recommendations td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #age-specific-recommendations th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        /* Media queries for responsive design */
+        @media only screen and (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center; /* Center items vertically on smaller screens */
+            }
+
+            .calculator-container {
+                margin-right: 0;
+                margin-bottom: 20px; /* Add margin between calculator and result on smaller screens */
+            }
+
+            .calculator {
+                max-width: none; /* Remove max-width on smaller screens */
+            }
+
+            .result-container {
+                margin-right: 0;
+            }
+        }
+        .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white; /* Set background color */
+    padding: 10px 20px; /* Add padding */
+}
+
+.navbar-list {
+    display: flex;
+    list-style: none;
+    font-size: 18px;
+}
+
+.navbar-item {
+    margin-right: 20px; /* Adjust spacing between navbar items */
+}
+
+.navbar-link {
+    color: black; /* Set text color */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-link:hover {
+    color: #009688; /* Change text color on hover */
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.header-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px; /* Adjust spacing between buttons */
+}
+
+.btn {
+    background-color: #009688; /* Set button background color */
+    color: white; /* Set button text color */
+    border: none;
+    padding: 10px 20px; /* Add padding */
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #00796b; /* Change button background color on hover */
+}
+
+.has-before {
+    position: relative;
+}
+
+.has-before:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-color: transparent transparent transparent #009688; /* Match button background color */
+    transform: translateY(-50%);
+}
+/*foter */
+/* Footer CSS */
+.footer {
+      background-repeat: no-repeat;
+      background-color: var(--eerie-black-2);
+      color: var(--gray-x-11);
+      font-size: var(--fs-5);
+    }
+
+    .footer-top {
+      display: grid;
+      gap: 30px;
+    }
+
+    .footer-brand-text {
+      margin-block: 20px;
+    }
+
+    .footer-brand .wrapper {
+      display: flex;
+      gap: 5px;
+    }
+
+    .footer-brand .wrapper .span {
+      font-weight: var(--fw-500);
+    }
+
+    .footer-link {
+      transition: var(--transition-1);
+    }
+
+    .footer-link:is(:hover, :focus) {
+      color: var(--kappel);
+    }
+
+    .footer-list-title {
+      color: var(--white);
+      font-family: var(--ff-league_spartan);
+      font-size: var(--fs-3);
+      font-weight: var(--fw-600);
+      margin-block-end: 10px;
+    }
+
+    .footer-list .footer-link {
+      padding-block: 5px;
+    }
+
+    .newsletter-form {
+      margin-block: 20px 35px;
+    }
+
+    .newsletter-form .input-field {
+      background-color: var(--white);
+      padding: 12px;
+      border-radius: var(--radius-5);
+      margin-block-end: 20px;
+    }
+
+    .newsletter-form .btn {
+      min-width: 100%;
+      justify-content: center;
+    }
+
+    .social-list {
+      display: flex;
+      gap: 25px;
+    }
+
+    .social-link {
+      font-size: 20px;
+    }
+
+    .footer-bottom {
+      border-block-start: 1px solid var(--eerie-black-1);
+      padding-block: 30px;
+    }
+
+    .copyright {
+      text-align: center;
+    }
+
+    .copyright-link {
+      color: var(--kappel);
+      display: inline-block;
+    }
+
+    
+    /*-----------------------------------*\
+  #style.css
+\*-----------------------------------*/
+
+
+
+
+ 
+ 
+
+li { list-style: none; }
+
+a,
+img,
+span,
+data,
+input,
+button,
+ion-icon { display: block; }
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+ 
+ 
+
+button { cursor: pointer; }
+
+ 
+html {
+font-family: var(--ff-poppins);
+font-size: 12px;
+scroll-behavior: smooth;
+}
+ 
+
+
+
+/*-----------------------------------*\
+#REUSED STYLE
+\*-----------------------------------*/
+
+.container { padding-inline: 15px; }
+
+.section { padding-block: var(--section-padding); }
+
+ 
+ 
+.btn {
+background-color: var(--kappel);
+color: var(--white);
+font-family: var(--ff-league_spartan);
+font-size: var(--fs-4);
+display: flex;
+align-items: center;
+gap: 7px;
+max-width: max-content;
+padding: 10px 20px;
+border-radius: var(--radius-5);
+overflow: hidden;
+}
+
+ 
+ 
+ 
+ 
+ 
+
+.grid-list {
+display: grid;
+gap: 30px;
+}
+ 
+
+
+ 
+/*-----------------------------------*\
+#FOOTER
+\*-----------------------------------*/
+
+.footer {
+background-repeat: no-repeat;
+background-color: var(--eerie-black-2);
+color: var(--gray-x-11);
+font-size: var(--fs-5);
+}
+
+.footer-top {
+display: grid;
+gap: 30px;
+}
+
+.footer-brand-text { margin-block: 20px; }
+
+.footer-brand .wrapper {
+display: flex;
+gap: 5px;
+}
+
+.footer-brand .wrapper .span { font-weight: var(--fw-500); }
+
+.footer-link { transition: var(--transition-1); }
+
+.footer-link:is(:hover, :focus) { color: var(--kappel); }
+
+.footer-list-title {
+color: var(--white);
+font-family: var(--ff-league_spartan);
+font-size: var(--fs-3);
+font-weight: var(--fw-600);
+margin-block-end: 10px;
+}
+
+.footer-list .footer-link { padding-block: 5px; }
+
+.newsletter-form { margin-block: 20px 35px; }
+
+.newsletter-form .input-field {
+background-color: var(--white);
+padding: 12px;
+border-radius: var(--radius-5);
+margin-block-end: 20px;
+}
+
+.newsletter-form .btn {
+min-width: 100%;
+justify-content: center;
+}
+
+.social-list {
+display: flex;
+gap: 25px;
+}
+
+.social-link { font-size: 20px; }
+
+.footer-bottom {
+border-block-start: 1px solid var(--eerie-black-1);
+padding-block: 30px;
+}
+
+.copyright { text-align: center; }
+
+.copyright-link {
+color: var(--kappel);
+display: inline-block;
+}
+
+
+
+ 
+
+
+
+
+/*-----------------------------------*\
+#MEDIA QUERIES
+\*-----------------------------------*/
+
+/**
+* responsive for large than 575px screen
+*/
+
+@media (min-width: 575px) {
+
+/**
+ * REUSED STYLE
+ */
+
+.container {
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.grid-list { grid-template-columns: 1fr 1fr; }
+
+:is(.course, .blog) .grid-list { grid-template-columns: 1fr; }
+
+
+ 
+ 
+
+/**
+ * FOOTER
+ */
+
+.footer-brand,
+.footer-list:last-child { grid-column: 1 / 3; }
+
+.newsletter-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.newsletter-form .input-field { margin-block-end: 0; }
+
+.newsletter-form .btn { min-width: max-content; }
+
+}
+
+
+
+
+
+/**
+* responsive for large than 768px screen
+*/
+
+@media (min-width: 768px) {
+
+/**
+ * CUSTOM PROPERTY
+ */
+
+:root {
+
+  /**
+   * typography
+   */
+
+  --fs-1: 4.6rem;
+  --fs-2: 3.8rem;
+
+}
+
+ 
+
+/**
+ * FOOTER
+ */
+
+.footer-brand,
+.footer-list:last-child { grid-column: auto; }
+
+.newsletter-form .btn { padding-block: 10px; }
+
+}
+
+
+
+
+ 
+
+
+/**
+ * REUSED STYLE
+ */
+
+.container { max-width: 960px; }
+
+.grid-list { grid-template-columns: repeat(4, 1fr); }
+
+:is(.course, .blog) .grid-list { grid-template-columns: repeat(3, 1fr); }
+
+
+ 
+ 
+
+/**
+ * FOOTER
+ */
+
+.footer .grid-list { grid-template-columns: 1fr 0.6fr 0.6fr 1.2fr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    
+    <header class="navbar">
+        <a href="#" class="logo">
+            <img src="images/traninglogo.png" width="auto" height="100" alt="traning logo">
+        </a>
+        <ul class="navbar-list">
+            <li class="navbar-item">
+                <a href="index.html" class="navbar-link">Home</a>
+            </li>
+            <li class="navbar-item">
+                <a href="poshan.html" class="navbar-link">Poshan Calculator</a>
+            </li>
+            <li class="navbar-item">
+                <a href="gallery.html" class="navbar-link">Gallery</a>
+            </li>
+            <li class="navbar-item">
+                <a href="#" class="navbar-link">News</a>
+            </li>
+            <li class="navbar-item">
+                <a href="community.html" class="navbar-link">Community</a>
+            </li>
+            <li class="navbar-item">
+                <a href="training.html" class="navbar-link">Training</a>
+            </li>
+            <li class="navbar-item">
+                <a href="MPR.html" class="navbar-link">MPR</a>
+            </li>
+            <li class="navbar-item">
+                <a href="contact.html" class="navbar-link">Contact</a>
+            </li>
+        </ul>
+        
+        <div class="header-actions">
+    
+   
+        
+      <div class="header-actions">
+  <a href="https://chat.whatsapp.com/Gv5pyhb8eNK9fjulZQ4kby" class="btn has-before">
+          <span class="span">join our wht's app</span>
+
+          <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+        </a>
+
+        <button class="header-action-btn" aria-label="open menu" data-nav-toggler>
+          <ion-icon name="menu-outline" aria-hidden="true"></ion-icon>
+        </button>
+
+      </div>
+
+      <div class="overlay" data-nav-toggler data-overlay></div>
+
+    </div>
+    </header>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="content">
+        <div id="sidebar-left">
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://images.yourstory.com/cs/wordpress/2017/04/Maneka-Gandhi.jpg?w=1152&fm=auto&ar=2:1&mode=crop&crop=faces" alt="User Avatar">
+                </div>
+                <div class="username">Sonam Desai</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://qph.cf2.quoracdn.net/main-qimg-4c18e45d728ad9c3a8bbcfe4f92d16fe-lq" alt="User Avatar">
+                </div>
+                <div class="username">Kareena Kapoor</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://qph.cf2.quoracdn.net/main-qimg-f24f2a592f91d82e2ccd0d8c30bbfe6d-lq " alt="User Avatar">
+                </div>
+                <div class="username">Alia Khan</div>
+            </div>
+        </div>
+
+        <div id="main">
+            <div id="posts-container">
+                <!-- Posts will be loaded here -->
+            </div>
+
+            <div id="post-form">
+                <button id="create-profile-btn" onclick="showProfileForm()">Create Profile</button>
+                <div id="profile-form" style="display: none;">
+                    <form id="profile-form">
+                        <input type="text" id="name" placeholder="Enter your name" required><br><br>
+                        <input type="text" id="contact" placeholder="Enter your contact number" required><br><br>
+                        <input type="email" id="email" placeholder="Enter your email" required><br><br>
+                        <button type="submit" onclick="submitProfile()">Submit</button>
+                    </form>
+                </div>
+                <textarea id="post-content" placeholder="Share your thoughts..."></textarea>
+                <input type="file" id="file-input" accept="image/*">
+                <button onclick="createPost()">Post</button>
+            </div>
+        </div>
+
+        <div id="sidebar-right">
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://en-media.thebetterindia.com/uploads/2022/12/ws_2_720-1671260096.jpg" alt="User Avatar">
+                </div>
+                <div class="username">Deepika Singh</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://indianmasterminds.com/wp-content/uploads/2023/05/o7Fuqo1e.jpg" alt="User Avatar">
+                </div>
+                <div class="username">Aishwarya Sharma</div>
+            </div>
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="https://i.pinimg.com/originals/14/b2/bf/14b2bf7b86f40a2ab944f9988811d575.jpg" alt="User Avatar">
+                </div>
+                <div class="username">Priyanka Patel</div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  <footer class="footer" style="background-image: url('images/footer-bg.png')">
+    <div class="footer-top section">
+      <div class="container grid-list">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <img src="images/left_logo.png" width="162" height="50" alt="EduWeb logo">
+          </a>
+          <p class="footer-brand-text">
+            "Unlock your potential and empower your community! Join us for a transformative training experience as an Anganwadi Sevika today."
+          </p>
+          <div class="wrapper">
+            <span class="span">Add:</span>
+            <address class="address">70-80 Upper St mumbai NR2</address>
+          </div>
+          <div class="wrapper">
+            <span class="span">Call:</span>
+            <a href="tel:+011234567890" class="footer-link">+01 123 4567 890</a>
+          </div>
+          <div class="wrapper">
+            <span class="span">Email:</span>
+            <a href="mailto:nutandindemumbai@.com" class="footer-link">adityadinde@gmail.com</a>
+          </div>
+        </div>
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Online Platform</p>
+          </li>
+          <li>
+            <a href="#" class="footer-link">About</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Courses</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Instructors</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Event's</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Instructor Profile</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">Learning Guide</a>
+          </li>
+        </ul>
+        <ul class="footer-list">
+          <li>
+            <p class="footer-list-title">Links</p>
+          </li>
+          <li>
+            <a href="index.html" class="footer-link">Home</a>
+          </li>
+          <li>
+            <a href="poshan.html" class="footer-link">Poshan Calculator</a>
+          </li>
+          <li>
+            <a href="gallery.html" class="footer-link">Gallery</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">New's</a>
+          </li>
+          <li>
+            <a href="community.html" class="footer-link">Community</a>
+          </li>
+          <li>
+            <a href="training.html" class="footer-link">Training</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">MPR</a>
+          </li>
+          <li>
+            <a href="#" class="footer-link">signin/signup</a>
+          </li>
+          <li>
+            <a href="contact.html" class="footer-link">Contact</a>
+          </li>
+        </ul>
+        <div class="footer-list">
+          <p class="footer-list-title">Contacts</p>
+          <p class="footer-list-text">
+            Enter your email address to get in connect with us and follow us
+          </p>
+          <form action="https://formsubmit.co/nutandindemumbai@gmail.com" class="newsletter-form" method="post">
+            <input type="email" name="email_address" placeholder="Your email" required class="input-field">
+            <button type="submit" class="btn has-before">
+              <span class="span">Send</span>
+              <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+            </button>
+          </form>
+          <ul class="social-list">
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-linkedin"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-instagram"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="social-link">
+                <ion-icon name="logo-youtube"></ion-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; 2023 Poshan Calculator. All rights reserved. <a href="#" class="copyright-link">Terms of Service</a> and <a
+          href="#" class="copyright-link">Made By AdityaD</a>.
+      </p>
+    </div>
+  </footer>
+
+
+    <script>
+        var userProfile = null;
+
+        // Function to load posts from local storage
+        function loadPosts() {
+            var savedPosts = JSON.parse(localStorage.getItem('posts'));
+            if (savedPosts) {
+                var postsContainer = document.getElementById("posts-container");
+                postsContainer.innerHTML = savedPosts;
+            }
+        }
+
+        // Function to save posts to local storage
+        function savePosts() {
+            var postsContainer = document.getElementById("posts-container").innerHTML;
+            localStorage.setItem('posts', JSON.stringify(postsContainer));
+        }
+
+        // Load posts when the page is loaded
+        window.addEventListener('load', loadPosts);
+
+        function showProfileForm() {
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "block";
+        }
+
+        function submitProfile() {
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var email = document.getElementById("email").value;
+
+            // Store user profile
+            userProfile = { name: name, contact: contact, email: email };
+
+            // Display the name in the sidebar
+            var sidebarRight = document.getElementById("sidebar-right");
+            var userDiv = document.createElement("div");
+            userDiv.classList.add("sidebar-user");
+            userDiv.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://i.pinimg.com/originals/14/b2/bf/14b2bf7b86f40a2ab944f9988811d575.jpg" alt="User Avatar">
+                </div>
+                <div class="username">${name}</div>
+            `;
+            sidebarRight.appendChild(userDiv);
+
+            // Hide the profile form
+            var profileForm = document.getElementById("profile-form");
+            profileForm.style.display = "none";
+
+            // Clear the input fields
+            document.getElementById("name").value = "";
+            document.getElementById("contact").value = "";
+            document.getElementById("email").value = "";
+
+            // Prevent form submission
+            return false;
+        }
+
+        function createPost() {
+            var postContent = document.getElementById("post-content").value;
+            var fileInput = document.getElementById("file-input");
+            var files = fileInput.files;
+
+            // Create a new post element
+            var postElement = document.createElement("div");
+            postElement.classList.add("post");
+
+            // Add user info
+            var userInfo = document.createElement("div");
+            userInfo.classList.add("user-info");
+            userInfo.innerHTML = `
+                <div class="user-avatar">
+                    <img src="https://i.pinimg.com/originals/14/b2/bf/14b2bf7b86f40a2ab944f9988811d575.jpg" alt="User Avatar">
+                </div>
+                <div class="username">${userProfile ? userProfile.name : "You"}</div>
+            `;
+            postElement.appendChild(userInfo);
+
+            // Add post content
+            var contentElement = document.createElement("p");
+            contentElement.classList.add("post-content");
+            contentElement.textContent = postContent;
+            postElement.appendChild(contentElement);
+
+            // Add media files
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var mediaElement;
+
+                if (file.type.startsWith("image/https://i.pinimg.com/originals/14/b2/bf/14b2bf7b86f40a2ab944f9988811d575.jpg")) {
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = URL.createObjectURL(file);
+                }
+
+                mediaElement.classList.add("post-image");
+                postElement.appendChild(mediaElement);
+            }
+
+            // Add post to the posts container
+            var postsContainer = document.getElementById("posts-container");
+            postsContainer.insertBefore(postElement, postsContainer.firstChild);
+
+            // Save posts to local storage
+            savePosts();
+
+            // Clear input fields
+            document.getElementById("post-content").value = "";
+            fileInput.value = "";
+        }
+
+
+        function createPost() {
+    var postContent = document.getElementById("post-content").value;
+    var fileInput = document.getElementById("file-input");
+    var files = fileInput.files;
+
+    // Create a new post element
+    var postElement = document.createElement("div");
+    postElement.classList.add("post");
+
+    // Add user info
+    var userInfo = document.createElement("div");
+    userInfo.classList.add("user-info");
+    userInfo.innerHTML = `
+        <div class="user-avatar">
+            <img src="https://via.placeholder.com/40" alt="User Avatar">
+        </div>
+        <div class="username">${userProfile ? userProfile.name : "You"}</div>
+    `;
+    postElement.appendChild(userInfo);
+
+    // Add post content
+    var contentElement = document.createElement("p");
+    contentElement.classList.add("post-content");
+    contentElement.textContent = postContent;
+    postElement.appendChild(contentElement);
+
+    // Add media files
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var mediaElement;
+
+        if (file.type.startsWith("image/")) {
+            mediaElement = document.createElement("img");
+            mediaElement.src = URL.createObjectURL(file);
+        }
+
+        mediaElement.classList.add("post-image");
+        postElement.appendChild(mediaElement);
+    }
+
+    // Add post to the top of the posts container
+    var postsContainer = document.getElementById("posts-container");
+    var firstPost = postsContainer.firstChild;
+    if (firstPost) {
+        postsContainer.insertBefore(postElement, firstPost);
+    } else {
+        postsContainer.appendChild(postElement);
+    }
+
+    // Save posts to local storage
+    savePosts();
+
+    // Clear input fields
+    document.getElementById("post-content").value = "";
+    fileInput.value = "";
+}
+
+    </script>
+</body>
+</html>
